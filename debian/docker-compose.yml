@@ -33,7 +33,7 @@ services:
     image: nginx:alpine
     restart: unless-stopped
     ports:
-      - "80:80"
+      - "${PORT:-80}:80"
     volumes:
       - ./nginx:/etc/nginx/conf.d:ro
       - app_public:/var/www/html/public:ro
@@ -59,7 +59,16 @@ services:
     networks:
       - app-network
     healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u${MYSQL_USER}", "-p${MYSQL_PASSWORD}" ]
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u${MYSQL_USER}",
+          "-p${MYSQL_PASSWORD}",
+        ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -73,7 +82,7 @@ services:
     networks:
       - app-network
     healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]
+      test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -89,7 +98,7 @@ volumes:
   app_public:
     driver: local
   app_storage:
-    driver: local  
+    driver: local
   mysql_data:
     driver: local
   redis_data:
