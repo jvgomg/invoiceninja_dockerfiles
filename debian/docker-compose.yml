@@ -11,9 +11,9 @@ services:
     image: invoiceninja/invoiceninja-debian:${TAG:-latest}
     restart: unless-stopped
     env_file:
-      - stack.env
+      - ../stack.env
     volumes:
-      - ./stack.env:/var/www/html/.env
+      - ../stack.env:/var/www/html/.env
       # - ./php/php.ini:/usr/local/etc/php/conf.d/invoiceninja.ini:ro
       # - ./php/php-fpm.conf:/usr/local/etc/php-fpm.d/invoiceninja.conf:ro
       # - ./supervisor/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf:ro
@@ -48,7 +48,7 @@ services:
     image: mysql:8
     restart: unless-stopped
     env_file:
-      - stack.env
+      - ../stack.env
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_USER: ${DB_USERNAME}
